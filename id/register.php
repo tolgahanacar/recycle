@@ -51,11 +51,11 @@ require_once '../root/root.php';
             die("Empty Blank!");
         }
         if (is_numeric($name) || is_numeric($surname)) {
-            die("hata");
+            die("The first or last name does not contain a numeric value!");
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            die("hata");
+            die("The e-mail you entered does not meet the e-mail criteria!");
         }
 
         $dontuse = "+";
@@ -69,12 +69,11 @@ require_once '../root/root.php';
         $query->execute();
         $count = $query->rowCount();
         if ($count > 0) {
-            die("This user is registered in the system");
+            die("This user is registered in the system!");
         }
 
         if (!preg_match($control, $password2) || strlen($password2) < 8) {
-            echo "Please re-enter your password with 1 capital letter and at least 8 characters!";
-            die();
+            die("Please re-enter your password with 1 capital letter and at least 8 characters!");
         }
 
         $password = PassHash($password2);
@@ -90,8 +89,9 @@ require_once '../root/root.php';
         $reg->execute();
         if ($db->lastInsertId()) {
             echo "Registration successful.";
+            header("location:./login.php");
         } else {
-            echo "Registration failed or an error occurred, please contact the administrator.";
+            echo "Registration failed or an error occurred, please contact the administrator!";
         }
     }
     ?>
