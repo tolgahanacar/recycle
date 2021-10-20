@@ -1,6 +1,4 @@
 <?php
-include './root/functions.php';
-echo BrowserLang();
 ?>
 <!DOCTYPE html>
 <html lang="en">
