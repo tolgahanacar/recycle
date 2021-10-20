@@ -1,7 +1,6 @@
 <?php
-
-$token = uniqid(md5('__token__'));
-echo $token;
+include './root/functions.php';
+echo BrowserLang();
 ?>
 <!DOCTYPE html>
 <html lang="en">

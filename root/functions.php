@@ -16,3 +16,21 @@ function PassHash($value)
     $result = $hash;
     return $result;
 }
+
+function BrowserLang()
+{
+    $check = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+    return match ($check) {
+        'en'    => "English",
+        'en-EN' => "English",
+        'tr-TR' => "Turkish",
+        'tr'    => "Turkish",
+        'en-US' => "American English",
+        'en-CA' => "Canadian English",
+        'en-IN' => "Indian English",
+        'en-NZ' => "New Zeland English",
+        'en-AU' => "Australian English",
+        'de'    => "German",
+        'az-AZ' => "Azerbaijani",
+    };
+}
