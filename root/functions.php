@@ -34,3 +34,23 @@ function BrowserLang()
         'az-AZ' => "Azerbaijani",
     };
 }
+
+function EncryptData($value)
+{
+    $trim = trim($value);
+    $method = "AES-256-ECB";
+    $key  = "2e546189aa9d0eaf9a52e9746c9364dd";
+    $options = 0;
+    $result = openssl_encrypt($trim, $method, $key, $options);
+    return $result;
+}
+
+function DecryptData($value)
+{
+    $trim = trim($value);
+    $method = "AES-256-ECB";
+    $key = "2e546189aa9d0eaf9a52e9746c9364dd";
+    $options = 0;
+    $result = openssl_decrypt($trim, $method, $key, $options);
+    return $result;
+}

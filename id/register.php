@@ -87,12 +87,13 @@ require_once '../root/root.php';
         $password = PassHash($password2);
         $status = 0;
         $token  = uniqid(md5('__token__'));
+        $encryptEmail = EncryptData($email);
 
         $reg = $db->prepare("INSERT INTO users (Username, Name, Surname, EMail, Password, Status, Session_Token) VALUES (:username, :name, :surname, :email, :password, :status, :token)");
         $reg->bindParam(":username", $username, PDO::PARAM_STR);
         $reg->bindParam(":name", $name, PDO::PARAM_STR);
         $reg->bindParam(":surname", $surname, PDO::PARAM_STR);
-        $reg->bindParam(":email", $email, PDO::PARAM_STR);
+        $reg->bindParam(":email", $encryptEmail, PDO::PARAM_STR);
         $reg->bindParam(":password", $password, PDO::PARAM_STR);
         $reg->bindParam(":status", $status, PDO::PARAM_INT);
         $reg->bindParam(":token", $token, PDO::PARAM_STR);

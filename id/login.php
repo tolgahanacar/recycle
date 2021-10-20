@@ -41,7 +41,7 @@ require_once '../root/root.php';
         $password2     = Security($_POST['pass']);
 
         if (empty($username) || empty($password2)) {
-            die("Empty blank!");
+            die("<div class='container'><div class='alert alert-danger' role='alert'>Empty Blank!</div></div>");
         }
 
         $pass = PassHash($password2);
