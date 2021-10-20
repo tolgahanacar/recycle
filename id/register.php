@@ -15,55 +15,60 @@ require_once '../root/root.php';
 </head>
 
 <body>
-    <div class="form-control">
-        <form method="post">
-            <div class="mb-3">
-                <label for="Username">Username</label><br>
-                <input type="text" name="username" id="username" required>
-            </div>
-            <div class="mb-3">
-                <label for="Name">Name</label><br>
-                <input type="text" name="name" id="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="Name">Surname</label><br>
-                <input type="text" name="surname" id="surname" required>
-            </div>
-            <div class="mb-3">
-                <label for="Surname">E-Mail</label><br>
-                <input type="email" name="email" id="email" required>
-            </div>
-            <div class="mb-3">
-                <label for="Password">Password</label><br>
-                <input type="password" name="pass" id="pass" required>
-            </div>
-            <div class="mb-3">
-                <input type="submit" value="Register" name="register" class="btn btn-primary">
-            </div>
-        </form>
+    <div class="container">
+        <div class="form-control">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="Username"><b>Username</b></label><br>
+                    <input type="text" name="username" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="Name"><b>Name</label></b><br>
+                    <input type="text" name="name" id="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="Name"><b>Surname</label></b><br>
+                    <input type="text" name="surname" id="surname" required>
+                </div>
+                <div class="mb-3">
+                    <label for="Surname"><b>E-Mail</label></b><br>
+                    <input type="email" name="email" id="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="Password"><b>Password</label></b><br>
+                    <input type="password" name="pass" id="pass" required>
+                </div>
+                <div class="mb-3">
+                    <span>Already a member? <a href="./login.php">Login</a></span>
+                </div>
+                <div class="mb-3">
+                    <input type="submit" value="Register" name="register" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
     </div>
     <?php
     if (isset($_POST['register'])) {
         $username  = Security($_POST['username']);
-        $name      = Security($_POST['name']);
-        $surname   = Security($_POST['surname']);
+        $name      = Security(ucwords(strtolower($_POST['name'])));
+        $surname   = Security(ucwords(strtolower($_POST['surname'])));
         $email     = Security($_POST['email']);
         $password2 = Security($_POST['pass']);
         $control        = "/\S*((?=\S{8,})(?=\S*[A-Z]))\S*/";
         if (empty($username) || empty($name) || empty($surname) || empty($email) || empty($password2)) {
-            die("Empty Blank!");
+            die("<div class='container'><div class='alert alert-danger' role='alert'>Empty Blank!</div></div>");
         }
         if (is_numeric($name) || is_numeric($surname)) {
-            die("The first or last name does not contain a numeric value!");
+            die("<div class='container'><div class='alert alert-danger' role='alert'>The first or last name does not contain a numeric value!</div></div>");
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            die("The e-mail you entered does not meet the e-mail criteria!");
+            die("<div class='container'><div class='alert alert-danger' role='alert'>The e-mail you entered does not meet the e-mail criteria!</div></div>");
         }
 
         $dontuse = "+";
         if (strpos($email, $dontuse)) {
-            die("Please do not use invalid signs or register more than once.");
+            die("<div class='container'><div class='alert alert-danger' role='alert'>Please do not use invalid signs or register more than once.</div></div>");
         }
 
         $query = $db->prepare("SELECT * FROM users WHERE Username = :username OR EMail = :email");
@@ -72,16 +77,16 @@ require_once '../root/root.php';
         $query->execute();
         $count = $query->rowCount();
         if ($count > 0) {
-            die("This user is registered in the system!");
+            die("<div class='container'><div class='alert alert-danger' role='alert'>This user is registered in the system!</div></div>");
         }
 
         if (!preg_match($control, $password2) || strlen($password2) < 8) {
-            die("Please re-enter your password with 1 capital letter and at least 8 characters!");
+            die("<div class='container'><div class='alert alert-danger' role='alert'>Please re-enter your password with 1 capital letter and at least 8 characters!</div></div>");
         }
 
         $password = PassHash($password2);
         $status = 0;
-        $token  = rand(1, 99999);
+        $token  = uniqid(md5('__token__'));
 
         $reg = $db->prepare("INSERT INTO users (Username, Name, Surname, EMail, Password, Status, Session_Token) VALUES (:username, :name, :surname, :email, :password, :status, :token)");
         $reg->bindParam(":username", $username, PDO::PARAM_STR);
@@ -90,13 +95,13 @@ require_once '../root/root.php';
         $reg->bindParam(":email", $email, PDO::PARAM_STR);
         $reg->bindParam(":password", $password, PDO::PARAM_STR);
         $reg->bindParam(":status", $status, PDO::PARAM_INT);
-        $reg->bindParam(":token", $token, PDO::PARAM_INT);
+        $reg->bindParam(":token", $token, PDO::PARAM_STR);
         $reg->execute();
         if ($db->lastInsertId()) {
-            echo "<div class='alert alert-success' role='alert'>Registration successful.</div>";
+            echo "<div class='container'><div class='alert alert-success' role='alert'>Registration successful.</div></div>";
             header("Refresh: 1; url=./login.php");
         } else {
-            echo "<div class='alert alert-danger' role='alert'>Registration failed or an error occurred, please contact the administrator!</div>";
+            echo "<div class='container'><div class='alert alert-danger' role='alert'>Registration failed or an error occurred, please contact the administrator!</div></div>";
         }
     }
     ?>

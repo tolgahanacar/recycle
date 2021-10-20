@@ -12,7 +12,7 @@ function Security($value)
 function PassHash($value)
 {
     $trim = trim($value);
-    $hash = md5($trim);
+    $hash = hash('sha384', $trim);
     $result = $hash;
     return $result;
 }

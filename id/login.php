@@ -14,20 +14,25 @@ require_once '../root/root.php';
 </head>
 
 <body>
-    <div class="form-control">
-        <form action="" method="post">
-            <div class="mb-3">
-                <label for="Username"><b>Username</b></label><br>
-                <input type="text" name="username" id="username" required>
-            </div>
-            <div class="mb-3">
-                <label for="Password"><b>Password</b></label><br>
-                <input type="password" name="pass" id="pass" required>
-            </div>
-            <div>
-                <input type="submit" value="Login" name="login" class="btn btn-primary">
-            </div>
-        </form>
+    <div class="container">
+        <div class="form-control">
+            <form action="" method="post">
+                <div class="mb-3">
+                    <label for="Username"><b>Username</b></label><br>
+                    <input type="text" name="username" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="Password"><b>Password</b></label><br>
+                    <input type="password" name="pass" id="pass" required>
+                </div>
+                <div class="mb-3">
+                    <span>Not a member? </span><a href="./register.php">Register now</a>
+                </div>
+                <div>
+                    <input type="submit" value="Login" name="login" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
     </div>
 
     <?php
@@ -49,13 +54,13 @@ require_once '../root/root.php';
         $count = $query->rowCount();
         if ($count > 0) {
             $query2 = $query->fetchAll(PDO::FETCH_OBJ);
-            foreach($query2 as $item){
+            foreach ($query2 as $item) {
                 $_SESSION['user_session'] = $item->Session_Token;
             }
-            echo "<div class='alert alert-success' role='alert'>You log in successfully, you are redirected to the homepage.</div>";
+            echo "<div class='container'><div class='alert alert-success' role='alert'>You log in successfully, you are redirected to the homepage.</div></div>";
             header("Refresh: 1; url=../user/dashboard.php");
         } else {
-            die("<div class='alert alert-danger' role='alert'>Login failed, Please check and try again.</div>");
+            die("<div class='container'><div class='alert alert-danger' role='alert'>Login failed, Please check and try again.</div></div>");
         }
     }
     ?>
