@@ -1,6 +1,7 @@
 <?php
 
-function Security($value){
+function Security($value)
+{
     $trim = trim($value);
     $tagdestroy = strip_tags($trim);
     $htmlspecialchars = htmlspecialchars($tagdestroy, ENT_QUOTES);
@@ -8,7 +9,8 @@ function Security($value){
     return $result;
 }
 
-function PassHash($value){
+function PassHash($value)
+{
     $trim = trim($value);
     $hash = md5($trim);
     $result = $hash;

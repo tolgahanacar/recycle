@@ -8,7 +8,9 @@ require_once '../root/root.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <meta name="keywords" content="">
+    <title>Register | Recycle</title>
+    <?php include '../inc/seotags.php'; ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 
@@ -17,23 +19,23 @@ require_once '../root/root.php';
         <form method="post">
             <div class="mb-3">
                 <label for="Username">Username</label><br>
-                <input type="text" name="username" id="username">
+                <input type="text" name="username" id="username" required>
             </div>
             <div class="mb-3">
                 <label for="Name">Name</label><br>
-                <input type="text" name="name" id="name">
+                <input type="text" name="name" id="name" required>
             </div>
             <div class="mb-3">
                 <label for="Name">Surname</label><br>
-                <input type="text" name="surname" id="surname">
+                <input type="text" name="surname" id="surname" required>
             </div>
             <div class="mb-3">
                 <label for="Surname">E-Mail</label><br>
-                <input type="email" name="email" id="email">
+                <input type="email" name="email" id="email" required>
             </div>
             <div class="mb-3">
                 <label for="Password">Password</label><br>
-                <input type="password" name="pass" id="pass">
+                <input type="password" name="pass" id="pass" required>
             </div>
             <div class="mb-3">
                 <input type="submit" value="Register" name="register" class="btn btn-primary">
@@ -79,18 +81,20 @@ require_once '../root/root.php';
 
         $password = PassHash($password2);
         $status = 0;
+        $token  = rand(1, 99999);
 
-        $reg = $db->prepare("INSERT INTO users (Username, Name, Surname, EMail, Password, Status) VALUES (:username, :name, :surname, :email, :password, :status)");
+        $reg = $db->prepare("INSERT INTO users (Username, Name, Surname, EMail, Password, Status, Session_Token) VALUES (:username, :name, :surname, :email, :password, :status, :token)");
         $reg->bindParam(":username", $username, PDO::PARAM_STR);
         $reg->bindParam(":name", $name, PDO::PARAM_STR);
         $reg->bindParam(":surname", $surname, PDO::PARAM_STR);
         $reg->bindParam(":email", $email, PDO::PARAM_STR);
         $reg->bindParam(":password", $password, PDO::PARAM_STR);
         $reg->bindParam(":status", $status, PDO::PARAM_INT);
+        $reg->bindParam(":token", $token, PDO::PARAM_INT);
         $reg->execute();
         if ($db->lastInsertId()) {
-            echo "<div class='alert alert-primary' role='alert'>Registration successful.</div>";
-            header("location:./login.php");
+            echo "<div class='alert alert-success' role='alert'>Registration successful.</div>";
+            header("Refresh: 1; url=./login.php");
         } else {
             echo "<div class='alert alert-danger' role='alert'>Registration failed or an error occurred, please contact the administrator!</div>";
         }
