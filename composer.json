@@ -1,0 +1,10 @@
+{
+    "name": "recycle/recycle",
+    "description": "Recycle Project",
+    "autoload": {
+        "psr-4": {
+            "Recycle\\Recycle\\": "src/"
+        }
+    },
+    "require": {}
+}

@@ -1,6 +1,5 @@
 <?php
 require_once '../user/userinfo.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +16,8 @@ require_once '../user/userinfo.php';
     <title>Dashboard | Recycle</title>
     <?php include '../inc/seotags.php'; ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../src/css/style.css">
+    <script src="../src/js/main.js" type="text/javascript"></script>
 </head>
 <?php include '../inc/header.php'; ?>
 
