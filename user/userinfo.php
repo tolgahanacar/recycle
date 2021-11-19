@@ -3,7 +3,7 @@ require_once '../root/root.php';
 if (isset($_SESSION['user_session']) || !empty($_SESSION['user_session'])) {
     $token = $_SESSION['user_session'];
     $query = $db->prepare("SELECT * FROM users WHERE Session_Token = :token");
-    $query->bindParam(":token", $token, PDO::PARAM_INT);
+    $query->bindParam(":token", $token, PDO::PARAM_STR);
     $query->execute();
     $count = $query->rowCount();
     $query2 = $query->fetchAll(PDO::FETCH_OBJ);
