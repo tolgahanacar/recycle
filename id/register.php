@@ -85,6 +85,7 @@ require_once '../root/root.php';
         }
 
         $password = PassHash($password2);
+        $status = 0;
         $rand = rand(1,99999);
         $token  = uniqid(md5($rand));
         $encryptEmail = EncryptData($email);
