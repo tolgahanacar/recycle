@@ -85,8 +85,8 @@ require_once '../root/root.php';
         }
 
         $password = PassHash($password2);
-        $status = 0;
-        $token  = uniqid(md5('__token__'));
+        $rand = rand(1,99999);
+        $token  = uniqid(md5($rand));
         $encryptEmail = EncryptData($email);
 
         $reg = $db->prepare("INSERT INTO users (Username, Name, Surname, EMail, Password, Status, Session_Token) VALUES (:username, :name, :surname, :email, :password, :status, :token)");
